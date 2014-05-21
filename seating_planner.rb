@@ -42,7 +42,7 @@ tables =
   (5..12).map { |n| Table.new(number: n, capacity: 8) }
 
 # TODO randomise table order
-table_schedule = tables.cycle
+table_order = tables.cycle
 
 
 unseated_people = []
@@ -52,7 +52,7 @@ people.each do |person|
     unseated_people << person
   else
     begin
-      table = table_schedule.next
+      table = table_order.next
     end until table.has_a_free_seat?
 
     table.add_person(person)
