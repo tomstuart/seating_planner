@@ -10,10 +10,12 @@ class Person < Struct.new(:name, :ticket_type)
   end
 end
 
-people = CSV.foreach('people.csv').map { |fields| Person.new(*fields) }
-speakers, attendees = people.partition(&:speaker?)
+speakers, attendees = CSV.foreach('people.csv').
+  map { |fields| Person.new(*fields) }.
+  partition(&:speaker?)
 
-everyone = speakers + attendees # TODO shuffle speakers and attendees
+# TODO randomise speaker and attendee order
+people = speakers + attendees
 
 
 class Table
@@ -39,17 +41,18 @@ tables =
   (1..4).map { |n| Table.new(number: n, capacity: 9) } +
   (5..12).map { |n| Table.new(number: n, capacity: 8) }
 
-table_round_robin = tables.cycle # TODO shuffle tables
+# TODO randomise table order
+table_schedule = tables.cycle
 
 
 unseated_people = []
 
-everyone.each do |person|
+people.each do |person|
   if tables.none?(&:has_a_free_seat?)
     unseated_people << person
   else
     begin
-      table = table_round_robin.next
+      table = table_schedule.next
     end until table.has_a_free_seat?
 
     table.add_person(person)
