@@ -13,6 +13,9 @@ end
 people = CSV.foreach('people.csv').map { |fields| Person.new(*fields) }
 speakers, attendees = people.partition(&:speaker?)
 
+everyone = speakers + attendees # TODO shuffle speakers and attendees
+
+
 class Table
   attr_accessor :number, :capacity, :people
 
@@ -36,12 +39,10 @@ tables =
   (1..4).map { |n| Table.new(number: n, capacity: 9) } +
   (5..12).map { |n| Table.new(number: n, capacity: 8) }
 
-# TODO shuffle speakers and attendees
-everyone = speakers + attendees
-unseated_people = []
+table_round_robin = tables.cycle # TODO shuffle tables
 
-# TODO shuffle tables
-table_round_robin = tables.cycle
+
+unseated_people = []
 
 everyone.each do |person|
   if tables.none?(&:has_a_free_seat?)
