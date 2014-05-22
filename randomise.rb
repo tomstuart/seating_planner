@@ -1,5 +1,7 @@
+require_relative 'bubble_sort'
+
 class Array
   def randomise
-    sort { [-1, 1].sample }
+    bubble_sort { [-1, 1].sample }
   end
 end
