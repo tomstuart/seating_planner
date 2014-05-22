@@ -38,8 +38,8 @@ class Table
 end
 
 tables =
-  (1..4).map { |n| Table.new(number: n, capacity: 9) } +
-  (5..12).map { |n| Table.new(number: n, capacity: 8) }
+  (1..3).map { |n| Table.new(number: n, capacity: 12) } +
+  (4..11).map { |n| Table.new(number: n, capacity: 8) }
 
 # TODO randomise table order
 table_order = tables.randomise.cycle
