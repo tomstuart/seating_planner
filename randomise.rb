@@ -1,5 +1,5 @@
 class Array
   def randomise
-    self
+    sort { [-1, 1].sample }
   end
 end
