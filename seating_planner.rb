@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'randomise'
 
 class Person < Struct.new(:name, :ticket_type)
   def to_s
@@ -14,8 +15,7 @@ speakers, attendees = CSV.foreach('people.csv').
   map { |fields| Person.new(*fields) }.
   partition(&:speaker?)
 
-# TODO randomise speaker and attendee order
-people = speakers + attendees
+people = speakers.randomise + attendees.randomise
 
 
 class Table
@@ -42,7 +42,7 @@ tables =
   (5..12).map { |n| Table.new(number: n, capacity: 8) }
 
 # TODO randomise table order
-table_order = tables.cycle
+table_order = tables.randomise.cycle
 
 
 unseated_people = []
