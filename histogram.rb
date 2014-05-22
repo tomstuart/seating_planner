@@ -1,6 +1,8 @@
 class Hash
   def to_histogram(width)
-    values = self.values.map(&:size)
+    keys, values = sort.transpose
+    values = values.map(&:size)
+
     max_value = values.max
     max_key_width = keys.map { |key| key.to_s.length }.max
     max_bar_width = width - max_key_width - max_value.to_s.length - 3
